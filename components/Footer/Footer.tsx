@@ -10,10 +10,11 @@ export default function Footer() {
           <p>Developer: Maryna Boholiubova</p>
           <p>
             Contact us:{' '}
-            <a href="marinaboholiubova@gmail.com">marinaboholiubova@gmail.com</a>
+            <a href="mailto:marinaboholiubova@gmail.com">marinaboholiubova@gmail.com</a>
           </p>
         </div>
       </div>
     </footer>
   );
 }
+

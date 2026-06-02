@@ -6,7 +6,6 @@ import { useQuery } from '@tanstack/react-query';
 
 import css from './App.module.css';
 
-
 import SearchBox from '../../components/SearchBox/SearchBox';
 import Pagination from '../../components/Pagination/Pagination';
 import NoteList from '../../components/NoteList/NoteList';
@@ -15,7 +14,11 @@ import NoteForm from '../../components/NoteForm/NoteForm';
 
 import { fetchNotes } from '../../lib/api';
 
-export default function App() {
+type NotesClientProps = {
+  tag?: string;
+};
+
+export default function NotesClient({ tag }: NotesClientProps) {
   const [page, setPage] = useState<number>(1);
   const [search, setSearch] = useState<string>('');
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -25,13 +28,14 @@ export default function App() {
     setPage(1);
   }, 500);
 
-  const { data, isLoading, isError } = useQuery({
-    queryKey: ['notes', page, search],
+  const { data } = useQuery({
+    queryKey: ['notes', page, search, tag],
     queryFn: () =>
       fetchNotes({
         page,
         perPage: 12,
         search,
+        tag,
       }),
     placeholderData: previousData => previousData,
   });
@@ -56,8 +60,6 @@ export default function App() {
           Create note +
         </button>
       </header>
-
-    
 
       {data && data.notes.length > 0 && (
         <NoteList notes={data.notes} />

@@ -1,13 +1,5 @@
-import NotePreviewClient from './NotePreview.client';
+import NoteDetails from './NoteDetails.client';
 
-type Props = {
-  params: Promise<{
-    id: string;
-  }>;
-};
-
-export default async function ModalNotePage({ params }: Props) {
-  const { id } = await params;
-
-  return <NotePreviewClient id={id} />;
+export default function NoteDetailsPage() {
+  return <NoteDetails />;
 }

@@ -3,10 +3,7 @@ type Props = {
   sidebar: React.ReactNode;
 };
 
-export default function FilterLayout({
-  children,
-  sidebar,
-}: Props) {
+export default function NotesFilterLayout({ children, sidebar }: Props) {
   return (
     <>
       {sidebar}

@@ -6,7 +6,7 @@ type Props = {
   }>;
 };
 
-export default async function NotesFilterByTagPage({ params }: Props) {
+export default async function NotesFilterPage({ params }: Props) {
   const { slug } = await params;
   const tag = slug[0] === 'all' ? undefined : slug[0];
 

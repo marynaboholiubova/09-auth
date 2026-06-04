@@ -11,3 +11,5 @@ export default async function ModalNotePage({ params }: Props) {
 
   return <NotePreview id={id} />;
 }
+
+

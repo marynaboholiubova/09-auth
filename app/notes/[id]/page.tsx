@@ -1,5 +1,5 @@
-import NoteDetails from './NoteDetails.client';
+import NoteDetailsClient from './NoteDetails.client';
 
 export default function NoteDetailsPage() {
-  return <NoteDetails />;
+  return <NoteDetailsClient />;
 }

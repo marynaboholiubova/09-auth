@@ -15,3 +15,6 @@ export default function Error({ error, reset }: Props) {
     </div>
   );
 }
+
+
+

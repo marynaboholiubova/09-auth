@@ -5,7 +5,7 @@ import {
 } from '@tanstack/react-query';
 
 import NotePreview from '@/components/NotePreview/NotePreview';
-import { fetchNoteById } from '@/lib/api';
+import { fetchNoteById } from '@/lib/api/serverApi'
 
 type Props = {
   params: Promise<{

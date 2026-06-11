@@ -6,7 +6,7 @@ import {
 } from '@tanstack/react-query';
 
 import NotesClient from './Notes.client';
-import { fetchNotes } from '@/lib/api';
+import { fetchNotes } from '@/lib/api/serverApi'
 
 const ogImage = 'https://ac.goit.global/fullstack/react/notehub-og-meta.jpg';
 
@@ -53,7 +53,6 @@ export default async function NotesFilterPage({ params }: Props) {
     queryFn: () =>
       fetchNotes({
         page: 1,
-        perPage: 12,
         search: '',
         tag,
       }),

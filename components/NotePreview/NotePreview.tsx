@@ -1,4 +1,4 @@
-import { fetchNoteById } from '@/lib/api';
+import { fetchNoteById } from '@/lib/api/clientApi'
 import css from './NotePreview.module.css';
 
 type NotePreviewProps = {

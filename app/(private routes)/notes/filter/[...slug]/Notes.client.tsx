@@ -11,27 +11,31 @@ import SearchBox from '@/components/SearchBox/SearchBox';
 import Pagination from '@/components/Pagination/Pagination';
 import NoteList from '@/components/NoteList/NoteList';
 
-import { fetchNotes } from '@/lib/api';
+import { fetchNotes } from '@/lib/api/clientApi';
 
 type NotesClientProps = {
   tag?: string;
 };
 
-export default function NotesClient({ tag }: NotesClientProps) {
+export default function NotesClient({
+  tag,
+}: NotesClientProps) {
   const [page, setPage] = useState(1);
   const [search, setSearch] = useState('');
 
-  const handleSearch = useDebouncedCallback((value: string) => {
-    setSearch(value);
-    setPage(1);
-  }, 500);
+  const handleSearch = useDebouncedCallback(
+    (value: string) => {
+      setSearch(value);
+      setPage(1);
+    },
+    500
+  );
 
   const { data } = useQuery({
     queryKey: ['notes', page, search, tag],
     queryFn: () =>
       fetchNotes({
         page,
-        perPage: 12,
         search,
         tag,
       }),
@@ -51,12 +55,17 @@ export default function NotesClient({ tag }: NotesClientProps) {
           />
         )}
 
-        <Link href="/notes/action/create" className={css.button}>
+        <Link
+          href="/notes/action/create"
+          className={css.button}
+        >
           Create note +
         </Link>
       </div>
 
-      {data && data.notes.length > 0 && <NoteList notes={data.notes} />}
+      {data && data.notes.length > 0 && (
+        <NoteList notes={data.notes} />
+      )}
     </main>
   );
 }

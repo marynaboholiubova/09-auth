@@ -15,9 +15,7 @@ export default function EditProfilePage() {
   const user = useAuthStore((state) => state.user);
   const setUser = useAuthStore((state) => state.setUser);
 
-  const [username, setUsername] = useState(
-    user?.username ?? ''
-  );
+  const [username, setUsername] = useState(user?.username ?? '');
 
   if (!user) {
     return null;
@@ -28,25 +26,18 @@ export default function EditProfilePage() {
   ) => {
     e.preventDefault();
 
-    try {
-      const updatedUser = await updateMe({
-        username,
-      });
+    const updatedUser = await updateMe({
+      username,
+    });
 
-      setUser(updatedUser);
-
-      router.push('/profile');
-    } catch (error) {
-      console.error(error);
-    }
+    setUser(updatedUser);
+    router.push('/profile');
   };
 
   return (
     <main className={css.mainContent}>
       <div className={css.profileCard}>
-        <h1 className={css.formTitle}>
-          Edit Profile
-        </h1>
+        <h1 className={css.formTitle}>Edit Profile</h1>
 
         <Image
           src={user.avatar}
@@ -56,42 +47,30 @@ export default function EditProfilePage() {
           className={css.avatar}
         />
 
-        <form
-          className={css.profileInfo}
-          onSubmit={handleSubmit}
-        >
+        <form className={css.profileInfo} onSubmit={handleSubmit}>
           <div className={css.usernameWrapper}>
-            <label htmlFor="username">
-              Username:
-            </label>
+            <label htmlFor="username">Username:</label>
 
             <input
               id="username"
               type="text"
               className={css.input}
               value={username}
-              onChange={(e) =>
-                setUsername(e.target.value)
-              }
+              onChange={(e) => setUsername(e.target.value)}
             />
           </div>
 
           <p>Email: {user.email}</p>
 
           <div className={css.actions}>
-            <button
-              type="submit"
-              className={css.saveButton}
-            >
+            <button type="submit" className={css.saveButton}>
               Save
             </button>
 
             <button
               type="button"
               className={css.cancelButton}
-              onClick={() =>
-                router.push('/profile')
-              }
+              onClick={() => router.push('/profile')}
             >
               Cancel
             </button>

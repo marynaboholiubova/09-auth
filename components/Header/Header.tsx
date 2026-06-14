@@ -1,5 +1,5 @@
 import Link from 'next/link';
-
+import CategoriesMenu from '../CategoriesMenu/CategoriesMenu';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 
 import css from './Header.module.css';
@@ -21,6 +21,19 @@ export default function Header() {
             <Link href="/notes/filter/all">
               Notes
             </Link>
+          </li>
+          <li>
+            <Link href="/profile">Profile</Link>
+          </li>
+          <li>
+            <Link href="/about">About</Link>
+          </li>
+          {/* Нові посилання */}
+          <li>
+            <Link href="/sign-in">Login</Link>
+          </li>
+          <li>
+            <Link href="/sign-up">Register</Link>
           </li>
 
           <AuthNavigation />

@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 import css from './page.module.css';
 
-import { getMe } from '@/lib/api/serverApi';
+import { getServerMe } from '@/lib/api/serverApi';
 
 export const metadata: Metadata = {
   title: 'Profile | NoteHub',
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ProfilePage() {
-  const user = await getMe();
+  const user = await getServerMe();
 
   return (
     <main className={css.mainContent}>
@@ -20,10 +20,7 @@ export default async function ProfilePage() {
         <div className={css.header}>
           <h1 className={css.formTitle}>Profile Page</h1>
 
-          <Link
-            href="/profile/edit"
-            className={css.editProfileButton}
-          >
+          <Link href="/profile/edit" className={css.editProfileButton}>
             Edit Profile
           </Link>
         </div>

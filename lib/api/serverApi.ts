@@ -1,77 +1,45 @@
-import { cookies } from 'next/headers';
+// lib/api/serverApi.ts
 
-import { api } from './api';
+import { cookies } from 'next/headers';
+import { nextServer } from './api';
 
 import type { User } from '@/types/user';
 import type { Note } from '@/types/note';
 
-type FetchNotesResponse = {
-  notes: Note[];
-  totalPages: number;
-};
-
-type FetchNotesParams = {
-  search?: string;
-  page?: number;
-  tag?: string;
-};
-
-export async function fetchNotes({
-  search = '',
-  page = 1,
-  tag,
-}: FetchNotesParams): Promise<FetchNotesResponse> {
+export const checkServerSession = async () => {
   const cookieStore = await cookies();
 
-  const response = await api.get('/notes', {
-    params: {
-      search,
-      page,
-      perPage: 12,
-      tag,
-    },
+  const res = await nextServer.get('/auth/session', {
     headers: {
       Cookie: cookieStore.toString(),
     },
   });
 
-  return response.data;
-}
+  return res;
+};
+
+export const getServerMe = async (): Promise<User> => {
+  const cookieStore = await cookies();
+
+  const { data } = await nextServer.get('/auth/me', {
+    headers: {
+      Cookie: cookieStore.toString(),
+    },
+  });
+
+  return data;
+};
 
 export async function fetchNoteById(
   id: string
 ): Promise<Note> {
   const cookieStore = await cookies();
 
-  const response = await api.get(`/notes/${id}`, {
+  const { data } = await nextServer.get(`/notes/${id}`, {
     headers: {
       Cookie: cookieStore.toString(),
     },
   });
 
-  return response.data;
-}
-
-export async function getMe(): Promise<User> {
-  const cookieStore = await cookies();
-
-  const response = await api.get('/users/me', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-
-  return response.data;
-}
-
-export async function checkSession(): Promise<User | null> {
-  const cookieStore = await cookies();
-
-  const response = await api.get('/auth/session', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
-
-  return response.data ?? null;
+  return data;
 }

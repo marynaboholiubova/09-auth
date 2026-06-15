@@ -1,36 +1,39 @@
 // components/AuthProvider/AuthProvider.tsx
-
 'use client';
 
-import { checkSession, getMe } from '../lib/api';
-import { useAuthStore } from '../lib/store/authStore';
 import { useEffect } from 'react';
+
+import { checkSession, getMe } from '@/lib/api/clientApi';
+import { useAuthStore } from '@/lib/store/authStore';
 
 type Props = {
   children: React.ReactNode;
 };
 
-const AuthProvider = ({ children }: Props) => {
+export default function AuthProvider({ children }: Props) {
   const setUser = useAuthStore((state) => state.setUser);
-  const clearIsAuthenticated = useAuthStore((state) => state.clearIsAuthenticated);
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated
+  );
 
   useEffect(() => {
     const fetchUser = async () => {
-      // Перевіряємо сесію
-      const isAuthenticated = await checkSession();
-      if (isAuthenticated) {
-        // Якщо сесія валідна — отримуємо користувача
-        const user = await getMe();
-        if (user) setUser(user);
-      } else {
-        // Якщо сесія невалідна — чистимо стан
+      try {
+        const session = await checkSession();
+
+        if (session) {
+          const user = await getMe();
+          setUser(user);
+        } else {
+          clearIsAuthenticated();
+        }
+      } catch {
         clearIsAuthenticated();
       }
     };
+
     fetchUser();
   }, [setUser, clearIsAuthenticated]);
 
-  return children;
-};
-
-export default AuthProvider;
+  return <>{children}</>;
+}

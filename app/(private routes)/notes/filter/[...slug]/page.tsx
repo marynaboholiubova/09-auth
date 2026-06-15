@@ -51,11 +51,11 @@ export default async function NotesFilterPage({ params }: Props) {
   await queryClient.prefetchQuery({
     queryKey: ['notes', 1, '', tag],
     queryFn: () =>
-      fetchNotes({
-        page: 1,
-        search: '',
-        tag,
-      }),
+  fetchNotes(
+    '',
+    1,
+    tag
+  ),
   });
 
   return (

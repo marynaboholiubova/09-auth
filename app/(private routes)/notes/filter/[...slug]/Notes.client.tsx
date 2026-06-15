@@ -31,16 +31,17 @@ export default function NotesClient({
     500
   );
 
-  const { data } = useQuery({
-    queryKey: ['notes', page, search, tag],
-    queryFn: () =>
-      fetchNotes({
-        page,
-        search,
-        tag,
-      }),
-    placeholderData: previousData => previousData,
-  });
+const { data } = useQuery({
+  queryKey: ['notes', page, search, tag],
+  queryFn: () =>
+    fetchNotes(
+      search,
+      page,
+      tag
+    ),
+  placeholderData: (previousData) => previousData,
+});
+
 
   return (
     <main className={css.app}>

@@ -1,27 +1,15 @@
-import { cookies } from 'next/headers';
 import { NextResponse } from 'next/server';
-import { api, ApiError } from '../api';
-// Решта коду для GET
+import { getServerMe } from '../../serverApi';
 
-
-export async function PUT(request: Request) {
-  const cookieStore = await cookies();
-  const body = await request.json();
+export async function GET() {
   try {
-	  const { data } = await api.put('/auth/me', body, {
-	    headers: {
-	      Cookie: cookieStore.toString(),
-	    },
-	  });
-	
-		return NextResponse.json(data);
+    const user = await getServerMe();
 
-  } catch (error) {
+    return NextResponse.json(user);
+  } catch {
     return NextResponse.json(
-      {
-        error: (error as ApiError).response?.data?.error ?? (error as ApiError).message,
-      },
-      { status: (error as ApiError).status }
-    )
+      { error: 'Unauthorized' },
+      { status: 401 }
+    );
   }
 }

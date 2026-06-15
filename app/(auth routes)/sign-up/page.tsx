@@ -9,7 +9,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 
 export default function SignUpPage() {
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+  const { setUser } = useAuthStore();
 
   const [error, setError] = useState('');
 

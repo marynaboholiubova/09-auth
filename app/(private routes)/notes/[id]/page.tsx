@@ -35,7 +35,7 @@ export default async function NoteDetailsPage({ params }: Props) {
 
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
-      <NoteDetailsClient noteId={id} />
+     <NoteDetailsClient />
     </HydrationBoundary>
   );
 }

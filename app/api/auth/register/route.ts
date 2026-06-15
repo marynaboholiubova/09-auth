@@ -29,9 +29,12 @@ export async function POST(request: Request) {
 
       cookies.forEach((cookieStr) => {
         const parsedCookie = parse(cookieStr);
-        const [name, value] = Object.entries(parsedCookie)[0];
+const [name, value] = Object.entries(parsedCookie)[0] as [
+  string,
+  string,
+];
 
-        response.cookies.set(name, value, {
+response.cookies.set(name, value, {
           expires: parsedCookie.Expires
             ? new Date(parsedCookie.Expires)
             : undefined,

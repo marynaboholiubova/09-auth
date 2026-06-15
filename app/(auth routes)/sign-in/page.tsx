@@ -8,7 +8,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 
 export default function SignInPage() {
   const router = useRouter();
-  const setUser = useAuthStore((state) => state.setUser);
+  const { setUser } = useAuthStore();
 
   const [error, setError] = useState('');
 

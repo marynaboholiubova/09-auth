@@ -9,10 +9,7 @@ import { logout } from "@/lib/api/clientApi";
 
 export default function AuthNavigation() {
   const router = useRouter();
-  const { isAuthenticated, user } = useAuthStore();
-  const clearIsAuthenticated = useAuthStore(
-    (state) => state.clearIsAuthenticated,
-  );
+const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
 
   const handleLogout = async () => {
     await logout();

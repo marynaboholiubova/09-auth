@@ -11,10 +11,7 @@ type Props = {
 };
 
 export default function AuthProvider({ children }: Props) {
-  const setUser = useAuthStore((state) => state.setUser);
-  const clearIsAuthenticated = useAuthStore(
-    (state) => state.clearIsAuthenticated
-  );
+  const { setUser, clearIsAuthenticated } = useAuthStore();
 
   useEffect(() => {
     const fetchUser = async () => {

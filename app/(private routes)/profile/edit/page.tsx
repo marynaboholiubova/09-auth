@@ -12,9 +12,7 @@ import { useAuthStore } from '@/lib/store/authStore';
 export default function EditProfilePage() {
   const router = useRouter();
 
-  const user = useAuthStore((state) => state.user);
-  const setUser = useAuthStore((state) => state.setUser);
-
+ const { user, setUser } = useAuthStore();
   const [username, setUsername] = useState(user?.username ?? '');
 
   if (!user) {

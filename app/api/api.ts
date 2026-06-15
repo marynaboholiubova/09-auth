@@ -1,8 +1,16 @@
-import axios, { AxiosError } from 'axios';
-
-export type ApiError = AxiosError<{ error: string }>;
+import axios from 'axios';
 
 export const api = axios.create({
-  baseURL: 'https://next-v1-notes-api.goit.study',
+  baseURL: process.env.NEXT_PUBLIC_API_URL + '/api',
   withCredentials: true,
 });
+
+export type ApiError = {
+  response?: {
+    data?: {
+      error?: string;
+    };
+  };
+  message: string;
+  status?: number;
+};

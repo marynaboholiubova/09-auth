@@ -1,19 +1,51 @@
 import { NextResponse } from 'next/server';
-import { cookies } from 'next/headers';
+import { AxiosError, isAxiosError } from 'axios';
 import { api } from '../../api';
+import { cookies } from 'next/headers';
+
+type ApiError = {
+  error: string;
+};
+
+function logErrorResponse(error: AxiosError<ApiError>) {
+  const status = error.response?.status;
+  const data = error.response?.data;
+  console.error('API error:', { status, data });
+}
 
 export async function POST() {
-  // Передаємо поточні cookie до API
-  const cookieStore = await cookies();
-  await api.post('auth/logout', {
-    headers: {
-      Cookie: cookieStore.toString(),
-    },
-  });
+  try {
+    const cookieStore = await cookies();
 
-  // Очищаємо токени після запиту
-  cookieStore.delete('accessToken');
-  cookieStore.delete('refreshToken');
+    const apiRes = await api.post('/auth/logout', null, {
+      headers: {
+        Cookie: cookieStore.toString(),
+      },
+    });
 
-  return NextResponse.json({ message: 'Logged out successfully' });
+    const response = NextResponse.json(apiRes.data, { status: 200 });
+
+    response.cookies.delete('accessToken');
+    response.cookies.delete('refreshToken');
+
+    return response;
+  } catch (error) {
+    if (isAxiosError<ApiError>(error)) {
+      logErrorResponse(error);
+
+      return NextResponse.json(
+        {
+          error: error.response?.data?.error ?? error.message,
+        },
+        {
+          status: error.response?.status ?? 500,
+        }
+      );
+    }
+
+    return NextResponse.json(
+      { error: 'Internal Server Error' },
+      { status: 500 }
+    );
+  }
 }

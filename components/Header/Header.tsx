@@ -1,5 +1,4 @@
 import Link from 'next/link';
-import CategoriesMenu from '../CategoriesMenu/CategoriesMenu';
 import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
 
 import css from './Header.module.css';

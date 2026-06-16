@@ -1,80 +1,77 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
-import Image from 'next/image';
+import css from "./EditProfilePage.module.css";
+import { updateMe } from "@/lib/api/clientApi";
+import { useRouter } from "next/navigation";
+import Image from "next/image";
+import { useAuthStore } from "@/lib/store/authStore";
+import { useState } from "react";
 
-import css from './page.module.css';
-
-import { updateMe } from '@/lib/api/clientApi';
-import { useAuthStore } from '@/lib/store/authStore';
-
-export default function EditProfilePage() {
+export default function EditProfile() {
   const router = useRouter();
+  const { user, setUser } = useAuthStore();
+  const [username, setUsername] = useState(user?.username ?? "");
 
- const { user, setUser } = useAuthStore();
-  const [username, setUsername] = useState(user?.username ?? '');
+  if (!user) return null;
 
-  if (!user) {
-    return null;
-  }
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setUsername(event.target.value);
+  };
 
-  const handleSubmit = async (
-    e: React.FormEvent<HTMLFormElement>
-  ) => {
-    e.preventDefault();
-
+  const handleSaveUser = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
     const updatedUser = await updateMe({
-      username,
+      username: username,
     });
 
     setUser(updatedUser);
-    router.push('/profile');
+
+    router.push("/profile");
   };
 
   return (
-    <main className={css.mainContent}>
-      <div className={css.profileCard}>
-        <h1 className={css.formTitle}>Edit Profile</h1>
+    user && (
+      <main className={css.mainContent}>
+        <div className={css.profileCard}>
+          <h1 className={css.formTitle}>Edit Profile</h1>
 
-        <Image
-          src={user.avatar}
-          alt="User Avatar"
-          width={120}
-          height={120}
-          className={css.avatar}
-        />
+          <Image
+            src={user.avatar}
+            alt="User Avatar"
+            width={120}
+            height={120}
+            className={css.avatar}
+          />
 
-        <form className={css.profileInfo} onSubmit={handleSubmit}>
-          <div className={css.usernameWrapper}>
-            <label htmlFor="username">Username:</label>
+          <form className={css.profileInfo} onSubmit={handleSaveUser}>
+            <div className={css.usernameWrapper}>
+              <label htmlFor="username">Username:</label>
+              <input
+                id="username"
+                type="text"
+                value={username}
+                className={css.input}
+                onChange={handleChange}
+              />
+            </div>
 
-            <input
-              id="username"
-              type="text"
-              className={css.input}
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-          </div>
+            <p>Email: {user.email}</p>
 
-          <p>Email: {user.email}</p>
-
-          <div className={css.actions}>
-            <button type="submit" className={css.saveButton}>
-              Save
-            </button>
-
-            <button
-              type="button"
-              className={css.cancelButton}
-              onClick={() => router.push('/profile')}
-            >
-              Cancel
-            </button>
-          </div>
-        </form>
-      </div>
-    </main>
+            <div className={css.actions}>
+              <button type="submit" className={css.saveButton}>
+                Save
+              </button>
+              <button
+                type="button"
+                className={css.cancelButton}
+                onClick={() => router.back()}
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+        </div>
+      </main>
+    )
   );
 }

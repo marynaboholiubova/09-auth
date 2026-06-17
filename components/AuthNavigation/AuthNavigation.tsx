@@ -1,4 +1,3 @@
-// components/AuthNavigation/AuthNavigation.tsx
 "use client";
 
 import { useAuthStore } from "@/lib/store/authStore";
@@ -9,7 +8,10 @@ import { logout } from "@/lib/api/clientApi";
 
 export default function AuthNavigation() {
   const router = useRouter();
-const { isAuthenticated, user, clearIsAuthenticated } = useAuthStore();
+  const { isAuthenticated, user } = useAuthStore();
+  const clearIsAuthenticated = useAuthStore(
+    (state) => state.clearIsAuthenticated,
+  );
 
   const handleLogout = async () => {
     await logout();

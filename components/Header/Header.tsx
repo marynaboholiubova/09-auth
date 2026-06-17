@@ -1,7 +1,6 @@
-import Link from 'next/link';
-import AuthNavigation from '@/components/AuthNavigation/AuthNavigation';
-
-import css from './Header.module.css';
+import Link from "next/link";
+import css from "./Header.module.css";
+import AuthNavigation from "../AuthNavigation/AuthNavigation";
 
 export default function Header() {
   return (
@@ -9,32 +8,14 @@ export default function Header() {
       <Link href="/" aria-label="Home">
         NoteHub
       </Link>
-
       <nav aria-label="Main Navigation">
         <ul className={css.navigation}>
           <li>
             <Link href="/">Home</Link>
           </li>
-
           <li>
-            <Link href="/notes/filter/all">
-              Notes
-            </Link>
+            <Link href="/notes/filter/all">Notes</Link>
           </li>
-          <li>
-            <Link href="/profile">Profile</Link>
-          </li>
-          <li>
-            <Link href="/about">About</Link>
-          </li>
-          {/* Нові посилання */}
-          <li>
-            <Link href="/sign-in">Login</Link>
-          </li>
-          <li>
-            <Link href="/sign-up">Register</Link>
-          </li>
-
           <AuthNavigation />
         </ul>
       </nav>
